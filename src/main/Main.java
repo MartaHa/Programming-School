@@ -1,11 +1,13 @@
 package main;
 
 
+import dao.UserDaoImpl;
 import jdbc.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class Main {
 
@@ -13,7 +15,7 @@ public class Main {
 
 
 
-    //creating tables users
+//creating tables users
 
     public static void createUsersTable() {
 
@@ -36,7 +38,30 @@ public class Main {
         }
     }
 
+
+
     public static void main(String[] args) {
-        createUsersTable();
+
+
+
+
+
+         final UserDaoImpl userDaoImpl = new UserDaoImpl();
+
+
+        Scanner scanner = new Scanner(System.in);
+
+        //creating an user
+
+        System.out.println("Enter your username:");
+        String username = scanner.next();
+        System.out.println("Enter your password:");
+        String password = scanner.next();
+        System.out.println("Enter your email:");
+        String email = scanner.next();
+
+        userDaoImpl.createUser(username, email, password);
+
+        userDaoImpl.getAllUsers();
     }
 }
