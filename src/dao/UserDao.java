@@ -11,6 +11,7 @@ public interface UserDao {
    User getUserByEmail(String email);
    Set <User> getAllUsers();
    boolean updateUserbyEmail(String username, String password, String email);
+   boolean deleteUser(String email);
 
 
 }

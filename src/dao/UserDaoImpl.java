@@ -59,15 +59,30 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
+    //update user by email
+
     @Override
     public boolean updateUserbyEmail(String username, String password, String email) {
 
-        Connection connection= connectionFactory.getConnection();
-        String sql =""
+        Connection connection = connectionFactory.getConnection();
+        String sql = "(UPDATE user SET username=?, password=?, WHERE email=?);";
 
-        PreparedStatement prstm = connection.prepareStatement(sql);
+        try {
+            PreparedStatement prstm = connection.prepareStatement(sql);
+            prstm.setString(1, username);
+            prstm.setString(2, password);
+            int i = prstm.executeUpdate();
 
-        return false
+
+            if (i == 1) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return false;
     }
 
 
@@ -105,5 +120,26 @@ public class UserDaoImpl implements UserDao {
         user.setPassword(resultSet.getString("password"));
         System.out.println("Your user account has been created");
         return user;
+    }
+
+
+    //deleteUser
+
+    public boolean deleteUser(String email) {
+
+        Connection connection = connectionFactory.getConnection();
+        String sql = "DELETE FROM users WHERE email=";
+        try {
+            Statement stm = connection.createStatement();
+            int i = stm.executeUpdate(sql + email);
+            
+            if ( i == 1){
+                return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
