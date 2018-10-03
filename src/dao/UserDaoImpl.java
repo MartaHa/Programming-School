@@ -132,7 +132,7 @@ public class UserDaoImpl implements UserDao {
         try {
             Statement stm = connection.createStatement();
             int i = stm.executeUpdate(sql + email);
-            
+
             if ( i == 1){
                 return true;
             }
