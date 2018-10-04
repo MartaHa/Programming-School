@@ -2,12 +2,15 @@ package main;
 
 
 import dao.UserDaoImpl;
+import entity.User;
 import jdbc.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Main {
 
@@ -70,21 +73,83 @@ public class Main {
 //        createTables(sql3);
 //        createTables(sql4);
 
+        /*printig all users */
 
 
-//        Scanner scanner = new Scanner(System.in);
-//
-//        //creating an user
-//
-//        System.out.println("Enter your username:");
-//        String username = scanner.next();
-//        System.out.println("Enter your password:");
-//        String password = scanner.next();
-//        System.out.println("Enter your email:");
-//        String email = scanner.next();
-//
-//        userDaoImpl.createUser(username, email, password);
-//
-//        userDaoImpl.getAllUsers();
+
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println(" Witaj w panelu użytkownika. Wybierz jedną z opcji:\n" +
+                    "    add – dodanie użytkownika,\n" +
+                    "    print – wyświetl listę użytkowników,\n" +
+                    "    edit – edycja użytkownika,\n" +
+                    "    delete – usunięcie użytkownika,\n" +
+                    "    quit – zakończenie programu.\"\n");
+
+            String answer = scanner.next();
+            switch (answer) {
+
+                case "add": {
+
+                    //creating an user
+
+                    System.out.println("Enter your username:");
+                    String username = scanner.next();
+                    System.out.println("Enter your password:");
+                    String password = scanner.next();
+                    System.out.println("Enter your email:");
+                    String email = scanner.next();
+
+                    userDaoImpl.createUser(username, email, password);
+                    break;
+                }
+                case "print": {
+
+                    userDaoImpl.printUsers();
+                    break;
+                }
+
+                case "edit": {
+
+                    /* user edition */
+
+                    System.out.println("Enter your user id:");
+                    int userId = scanner.nextInt();
+                    System.out.println("Enter your username:");
+                    String username = scanner.next();
+                    System.out.println("Enter your password:");
+                    String password = scanner.next();
+                    System.out.println("Enter your email:");
+                    String email = scanner.next();
+
+                    userDaoImpl.updateUserbyId(username, password, email, userId);
+                    break;
+                }
+
+                /* user delete*/
+
+                case "delete": {
+                    System.out.println("Enter your user id:");
+                    int userId = scanner.nextInt();
+                    userDaoImpl.deleteUser(userId);
+                    break;
+                }
+
+                /* quit */
+
+
+                case "quit": {
+                    System.out.println("Goodbye");
+                    break;
+                }
+
+                default: {
+                    System.out.println("Command unnkown");
+                    scanner.next();
+                }
+            }
+        }
     }
 }
+
+

@@ -5,6 +5,7 @@ import jdbc.ConnectionFactory;
 
 import java.sql.*;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class UserDaoImpl implements UserDao {
@@ -40,7 +41,7 @@ public class UserDaoImpl implements UserDao {
 
     // get user by Id
     @Override
-    public User getUserByEmail(int userId) {
+    public User getUserByUserId(int userId) {
 
         Connection connection = connectionFactory.getConnection();
         String sql = "SELECT * FROM users WHERE userId =?";
@@ -62,15 +63,16 @@ public class UserDaoImpl implements UserDao {
     //update user by id
 
     @Override
-    public boolean updateUserbyEmail(String username, String password, String email) {
+    public boolean updateUserbyId(String username, String password, String email, int userId) {
 
         Connection connection = connectionFactory.getConnection();
-        String sql = "(UPDATE user SET username=?, password=?, WHERE userId=?);";
+        String sql = "(UPDATE user SET username=?, password=?, email =? WHERE userId=?);";
 
         try {
             PreparedStatement prstm = connection.prepareStatement(sql);
             prstm.setString(1, username);
             prstm.setString(2, password);
+            prstm.setString(3, email);
             int i = prstm.executeUpdate();
 
 
@@ -110,6 +112,14 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
+    public void printUsers(){
+        Set<User> users = getAllUsers();
+        Iterator itr = users.iterator();
+        while (itr.hasNext()) {
+            System.out.print(itr.next() + ",");
+        }
+    }
+
 
     //getting the user from the Result Set
 
@@ -118,7 +128,6 @@ public class UserDaoImpl implements UserDao {
         user.setUserId(resultSet.getInt("userId"));
         user.setUsername(resultSet.getString("username"));
         user.setPassword(resultSet.getString("password"));
-        System.out.println("Your user account has been created");
         return user;
     }
 

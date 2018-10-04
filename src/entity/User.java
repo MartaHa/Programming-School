@@ -58,4 +58,14 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return " Your id: " + userId +
+                "\n Your username: " + username +
+                "\n Your email: " + email +
+                "\n Your password: " + password+
+                "\n";
+                
+    }
 }

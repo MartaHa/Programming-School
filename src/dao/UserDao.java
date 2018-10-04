@@ -8,9 +8,9 @@ public interface UserDao {
 
 
    boolean createUser(String username, String password, String email);
-   User getUserByEmail(int userId);
+   User getUserByUserId(int userId);
    Set <User> getAllUsers();
-   boolean updateUserbyEmail(String username, String password, String email);
+   boolean updateUserbyId(String username, String password, String email, int userId);
    boolean deleteUser(int userId);
    Set <User> loadAllByGroupId(int groupId);
 
