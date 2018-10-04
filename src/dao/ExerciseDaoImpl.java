@@ -1,29 +1,29 @@
 package dao;
 
+import entity.Exercise;
 import entity.Solution;
-import entity.User;
 import jdbc.ConnectionFactory;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SolutionDaoImpl implements SolutionDao {
+public class ExerciseDaoImpl implements ExerciseDao {
 
     ConnectionFactory connectionFactory;
 
-    /* creating Solution */
+    /* creating Exercise */
 
 
     @Override
-    public boolean create(Date created, String description) {
+    public boolean create(String title, String description) {
         Connection connection = connectionFactory.getConnection();
-        String sql = "INSERT INTO solutions (solutionId, created) VALUES (null,?,?)";
+        String sql = "INSERT INTO exercises (exerciseId, title, description) VALUES (null,?,?)";
 
 
         try {
             PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setDate(1, created);
+            pstm.setString(1, title);
             pstm.setString(2, description);
             int i = pstm.executeUpdate();
 
@@ -38,19 +38,19 @@ public class SolutionDaoImpl implements SolutionDao {
     }
 
 
-    /* Get Solution by Id */
+    /* Get Exercise by Id */
 
     @Override
-    public Solution getById(int solutionId) {
+    public Exercise getById(int exerciseId) {
         Connection connection = connectionFactory.getConnection();
-        String sql = "SELECT * FROM solutions WHERE solutionId =?";
+        String sql = "SELECT * FROM exercises WHERE exerciseId =?";
 
         try {
             Statement stm = connection.createStatement();
             ResultSet resultSet = stm.executeQuery(sql);
 
             if (resultSet.next()) {
-                extractSolutionFromResultSet(resultSet);
+                extractExerciseFromResultSet(resultSet);
             }
 
         } catch (SQLException e) {
@@ -60,37 +60,38 @@ public class SolutionDaoImpl implements SolutionDao {
 
     }
 
-    //getting the Solution from the Result Set
+    //getting the Exercise from the Result Set
 
-    private Solution extractSolutionFromResultSet(ResultSet resultSet) throws SQLException {
-        Solution solution = new Solution();
-        solution.setSolutionId(resultSet.getInt("solutionId"));
-        solution.setCreated(resultSet.getDate("created"));
-        solution.setDescription(resultSet.getString("description"));
+    private Exercise extractExerciseFromResultSet(ResultSet resultSet) throws SQLException {
 
-        return solution;
+        Exercise exercise = new Exercise();
+        exercise.setExerciseId(resultSet.getInt("exerciseId"));
+        exercise.setTitle(resultSet.getString("title"));
+        exercise.setDescription(resultSet.getString("description"));
+
+        return exercise;
     }
 
 
-    /*get All Solutions */
+    /*get All Exercises */
 
     @Override
-    public Set<Solution> getAll() {
+    public Set<Exercise> getAll() {
         Connection connection = connectionFactory.getConnection();
 
-        String sql = "SELECT * FROM solutions";
+        String sql = "SELECT * FROM exercises";
         try {
             Statement stm = connection.createStatement();
 
             ResultSet resultSet = stm.executeQuery(sql);
-            Set<Solution> allSolutions = new HashSet();
+            Set<Exercise> allExercises = new HashSet();
 
 
             if (resultSet.next()) {
-                Solution solution = extractSolutionFromResultSet(resultSet);
-                allSolutions.add(solution);
+                Exercise exercise = extractExerciseFromResultSet(resultSet);
+                allExercises.add(exercise);
             }
-            return allSolutions;
+            return allExercises;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -98,15 +99,16 @@ public class SolutionDaoImpl implements SolutionDao {
     }
 
 
-    /* delet solution by Id */
+    /* delete exercise by Id */
 
     @Override
-    public boolean deleteSolution(int solutionId) {
+    public boolean deleteExercise(int exerciseId) {
         Connection connection = connectionFactory.getConnection();
-        String sql = "DELETE FROM solutions WHERE solutionId=";
+
+        String sql = "DELETE FROM exercises WHERE exerciseId=";
         try {
             Statement stm = connection.createStatement();
-            int i = stm.executeUpdate(sql + solutionId);
+            int i = stm.executeUpdate(sql + exerciseId);
 
             if (i == 1) {
                 return true;
@@ -118,3 +120,5 @@ public class SolutionDaoImpl implements SolutionDao {
         return false;
     }
 }
+
+

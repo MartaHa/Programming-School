@@ -2,7 +2,6 @@ package dao;
 
 
 import entity.Solution;
-
 import java.sql.Date;
 import java.util.Set;
 

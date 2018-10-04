@@ -1,14 +1,16 @@
 package dao;
 
+
 import entity.Solution;
 import entity.User;
+import entity.UserGroup;
 import jdbc.ConnectionFactory;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SolutionDaoImpl implements SolutionDao {
+public class UserGroupDaoImpl implements  UserGroupDao{
 
     ConnectionFactory connectionFactory;
 
@@ -16,15 +18,15 @@ public class SolutionDaoImpl implements SolutionDao {
 
 
     @Override
-    public boolean create(Date created, String description) {
+    public boolean create(String name) {
         Connection connection = connectionFactory.getConnection();
-        String sql = "INSERT INTO solutions (solutionId, created) VALUES (null,?,?)";
+
+        String sql = "INSERT INTO usergroups (userGroupId, name) VALUES (null,?)";
 
 
         try {
             PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setDate(1, created);
-            pstm.setString(2, description);
+            pstm.setString(1, name);
             int i = pstm.executeUpdate();
 
             if (i == 1) {
@@ -38,12 +40,12 @@ public class SolutionDaoImpl implements SolutionDao {
     }
 
 
-    /* Get Solution by Id */
+    /* Get UserGroup by Id */
 
     @Override
-    public Solution getById(int solutionId) {
+    public UserGroup getById(int id) {
         Connection connection = connectionFactory.getConnection();
-        String sql = "SELECT * FROM solutions WHERE solutionId =?";
+        String sql = "SELECT * FROM usergroups WHERE userGroupId =?";
 
         try {
             Statement stm = connection.createStatement();
@@ -60,37 +62,37 @@ public class SolutionDaoImpl implements SolutionDao {
 
     }
 
-    //getting the Solution from the Result Set
+    //getting the user groups from the Result Set
 
-    private Solution extractSolutionFromResultSet(ResultSet resultSet) throws SQLException {
-        Solution solution = new Solution();
-        solution.setSolutionId(resultSet.getInt("solutionId"));
-        solution.setCreated(resultSet.getDate("created"));
-        solution.setDescription(resultSet.getString("description"));
+    private UserGroup extractSolutionFromResultSet(ResultSet resultSet) throws SQLException {
+        UserGroup userGroup = new UserGroup();
+        userGroup.setId(resultSet.getInt("userGroupId"));
+        userGroup.setName(resultSet.getString("name"));
 
-        return solution;
+
+        return userGroup;
     }
 
 
-    /*get All Solutions */
+    /*get All user groups */
 
     @Override
-    public Set<Solution> getAll() {
+    public Set<UserGroup> getAll() {
         Connection connection = connectionFactory.getConnection();
 
-        String sql = "SELECT * FROM solutions";
+        String sql = "SELECT * FROM usergroups";
         try {
             Statement stm = connection.createStatement();
 
             ResultSet resultSet = stm.executeQuery(sql);
-            Set<Solution> allSolutions = new HashSet();
+            Set<UserGroup> allUserGroups = new HashSet();
 
 
             if (resultSet.next()) {
-                Solution solution = extractSolutionFromResultSet(resultSet);
-                allSolutions.add(solution);
+                UserGroup userGroup = extractSolutionFromResultSet(resultSet);
+                allUserGroups.add(userGroup);
             }
-            return allSolutions;
+            return allUserGroups;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,12 +103,12 @@ public class SolutionDaoImpl implements SolutionDao {
     /* delet solution by Id */
 
     @Override
-    public boolean deleteSolution(int solutionId) {
+    public boolean deleteUserGroup(int userGroupId) {
         Connection connection = connectionFactory.getConnection();
-        String sql = "DELETE FROM solutions WHERE solutionId=";
+        String sql = "DELETE FROM usergroups WHERE userGroupId=";
         try {
             Statement stm = connection.createStatement();
-            int i = stm.executeUpdate(sql + solutionId);
+            int i = stm.executeUpdate(sql + userGroupId);
 
             if (i == 1) {
                 return true;
@@ -118,3 +120,5 @@ public class SolutionDaoImpl implements SolutionDao {
         return false;
     }
 }
+
+

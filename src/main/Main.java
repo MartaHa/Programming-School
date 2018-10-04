@@ -40,7 +40,7 @@ public class Main {
                 + " password varchar(255),"
                 + " PRIMARY KEY(userId))";
 
-        String sql2 = "CREATE TABLE user_groups (userGroupId int AUTO_INCREMENT,"
+        String sql2 = "CREATE TABLE usergroups (userGroupId int AUTO_INCREMENT,"
                 + " name varchar(255),"
                 + " userId int,"
                 + " PRIMARY KEY(userGroupId),"
@@ -62,20 +62,13 @@ public class Main {
                 + " FOREIGN KEY(exerciseId) REFERENCES exercises(exerciseId),"
                 + " FOREIGN KEY(userId) REFERENCES users(userId))";
 
-
-//        String sql5 = "CREATE TABLE users_solutions( id int AUTO_INCREMENT,"
-//                + "userId int NOT NULL,"
-//                + "solutionId int NOT NULL,"
-//                + "PRIMARY KEY(id),"
-//                + "FOREIGN KEY (userId) REFERENCES users(userId), "
-//                + "FOREIGN KEY(solutionId) REFERENCES solutions(solutionId))";
-
+        
         /* in order to create the database you need to create tables as follows */
 
-        createTables(sql);
-        createTables(sql2);
-        createTables(sql3);
-        createTables(sql4);
+//        createTables(sql);
+//        createTables(sql2);
+//        createTables(sql3);
+//        createTables(sql4);
 
 
 
