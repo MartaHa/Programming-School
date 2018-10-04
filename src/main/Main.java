@@ -62,7 +62,7 @@ public class Main {
                 + " FOREIGN KEY(exerciseId) REFERENCES exercises(exerciseId),"
                 + " FOREIGN KEY(userId) REFERENCES users(userId))";
 
-        
+
         /* in order to create the database you need to create tables as follows */
 
 //        createTables(sql);

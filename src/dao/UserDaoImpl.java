@@ -40,10 +40,10 @@ public class UserDaoImpl implements UserDao {
 
     // get user by Id
     @Override
-    public User getUserByEmail(String email) {
+    public User getUserByEmail(int userId) {
 
         Connection connection = connectionFactory.getConnection();
-        String sql = "SELECT * FROM users WHERE email =?";
+        String sql = "SELECT * FROM users WHERE userId =?";
 
         try {
             Statement stm = connection.createStatement();
@@ -59,13 +59,13 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    //update user by email
+    //update user by id
 
     @Override
     public boolean updateUserbyEmail(String username, String password, String email) {
 
         Connection connection = connectionFactory.getConnection();
-        String sql = "(UPDATE user SET username=?, password=?, WHERE email=?);";
+        String sql = "(UPDATE user SET username=?, password=?, WHERE userId=?);";
 
         try {
             PreparedStatement prstm = connection.prepareStatement(sql);
@@ -125,15 +125,15 @@ public class UserDaoImpl implements UserDao {
 
     //deleteUser
 
-    public boolean deleteUser(String email) {
+    public boolean deleteUser(int userId) {
 
         Connection connection = connectionFactory.getConnection();
-        String sql = "DELETE FROM users WHERE email=";
+        String sql = "DELETE FROM users WHERE userId=";
         try {
             Statement stm = connection.createStatement();
-            int i = stm.executeUpdate(sql + email);
+            int i = stm.executeUpdate(sql + userId);
 
-            if ( i == 1){
+            if (i == 1) {
                 return true;
             }
 
@@ -141,5 +141,29 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return false;
+    }
+    /* get Users by UserGroup */
+
+    @Override
+    public Set<User> loadAllByGroupId(int groupId) {
+
+        Connection connection = connectionFactory.getConnection();
+        String sql = "SELECT * FROM users WHERE userGroupId=";
+        try {
+            Statement stm = connection.createStatement();
+
+            ResultSet resultSet = stm.executeQuery(sql + groupId);
+            Set<User> allUsers = new HashSet();
+
+
+            if (resultSet.next()) {
+                User user = extractUserFromResultSet(resultSet);
+                allUsers.add(user);
+            }
+            return allUsers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

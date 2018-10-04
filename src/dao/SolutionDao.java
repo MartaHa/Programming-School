@@ -11,4 +11,6 @@ public interface SolutionDao<R> {
     Solution getById(int id);
     Set<Solution> getAll();
     boolean deleteSolution(int id);
+    Set <Solution> loadAllByUserId( int userId);
+    Set <Solution> loadAllByExerciseId(int exerciseId);
 }

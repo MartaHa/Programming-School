@@ -117,4 +117,60 @@ public class SolutionDaoImpl implements SolutionDao {
         }
         return false;
     }
+
+
+    /* loadAllSolutionsbyUSerId */
+
+    @Override
+    public Set<Solution> loadAllByUserId(int userId) {
+        Connection connection = connectionFactory.getConnection();
+
+        String sql = "SELECT * FROM solutions WHERE userId =?";
+        try {
+            Statement stm = connection.createStatement();
+
+            ResultSet resultSet = stm.executeQuery(sql + userId);
+            Set<Solution> allSolutions = new HashSet();
+
+
+            if (resultSet.next()) {
+                Solution solution = extractSolutionFromResultSet(resultSet);
+                allSolutions.add(solution);
+            }
+            return allSolutions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    /*  get solutions by exercise id sort by created*/
+
+    @Override
+    public Set<Solution> loadAllByExerciseId(int exerciseId) {
+        Connection connection = connectionFactory.getConnection();
+
+        String sql = "SELECT * FROM solutions WHERE exerciseId =";
+        try {
+            Statement stm = connection.createStatement();
+
+            ResultSet resultSet = stm.executeQuery(sql + exerciseId + "ORDER BY created");
+            Set<Solution> allSolutions = new HashSet();
+
+
+            if (resultSet.next()) {
+                Solution solution = extractSolutionFromResultSet(resultSet);
+                allSolutions.add(solution);
+            }
+            return allSolutions;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
+
+
