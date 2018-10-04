@@ -14,7 +14,7 @@ public class Main {
 
 //creating tables
 
-    public static void createTable(String sql) {
+    public static void createTables(String sql) {
 
         {
             try {
@@ -55,24 +55,28 @@ public class Main {
         String sql4 = "CREATE TABLE solutions (solutionId int AUTO_INCREMENT,"
                 + " created date,"
                 + " updated date,"
+                + " exerciseId int,"
                 + " userId int,"
                 + " description varchar(255),"
                 + " PRIMARY KEY(solutionId),"
+                + " FOREIGN KEY(exerciseId) REFERENCES exercises(exerciseId),"
                 + " FOREIGN KEY(userId) REFERENCES users(userId))";
 
 
-        String sql5 = "CREATE TABLE exercises_solutions( id int AUTO_INCREMENT,"
-                + "exerciseId int NOT NULL,"
-                + "solutionId int NOT NULL,"
-                + "PRIMARY KEY(id),"
-                + "FOREIGN KEY (exerciseId) REFERENCES exercises(exerciseId), "
-                + "FOREIGN KEY(solutionId) REFERENCES solutions(solutionId))";
+//        String sql5 = "CREATE TABLE users_solutions( id int AUTO_INCREMENT,"
+//                + "userId int NOT NULL,"
+//                + "solutionId int NOT NULL,"
+//                + "PRIMARY KEY(id),"
+//                + "FOREIGN KEY (userId) REFERENCES users(userId), "
+//                + "FOREIGN KEY(solutionId) REFERENCES solutions(solutionId))";
 
-        createTable(sql);
-        createTable(sql2);
-        createTable(sql3);
-        createTable(sql4);
-        createTable(sql5);
+        /* in order to create the database you need to create tables as follows */
+
+        createTables(sql);
+        createTables(sql2);
+        createTables(sql3);
+        createTables(sql4);
+
 
 
 //        Scanner scanner = new Scanner(System.in);

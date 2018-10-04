@@ -4,18 +4,18 @@ import java.sql.Date;
 
 public class Solution {
 
-    private int id;
+    private int solutionId;
     private Date created;
     private Date updated;
     private String description;
 
 
-    public int getId() {
-        return id;
+    public int getSolutionId() {
+        return solutionId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSolutionId(int solutionId) {
+        this.solutionId = solutionId;
     }
 
     public Date getCreated() {
@@ -42,8 +42,8 @@ public class Solution {
         this.description = description;
     }
 
-    public Solution(int id, Date created, Date updated, String description) {
-        this.id = id;
+    public Solution(int solutionId, Date created, Date updated, String description) {
+        this.solutionId = solutionId;
         this.created = created;
         this.updated = updated;
         this.description = description;
