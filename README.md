@@ -27,6 +27,7 @@ List of features ready and TODOs for future development
 * Managing the students entity
 * Managing the exercises entity
 * Managing the solutions entity
+* Managing the user groups entity
 
 
 ## Status
